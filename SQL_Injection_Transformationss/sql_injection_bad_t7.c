@@ -40,7 +40,8 @@ int main( )
         return 1;
     }
 
-    
+
+    //Vulnerable SQL-Injection
     const char * user_input = "1; DROP TABLE users--";
     unsafe_query( db ,  user_input );
 
