@@ -1,6 +1,7 @@
 #include <sqlite3.h>
 #include <stdio.h>
 
+//Our own safe version of an SQL Injection vulnerability
 void safe_query(sqlite3* db, const char* user_input) {
     sqlite3_stmt* stmt;
 
