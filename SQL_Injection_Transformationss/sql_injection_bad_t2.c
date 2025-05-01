@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 
-void unsafe_query(const char* user_input, sqlite3* db) {  // Parameters reordered
+//Vulnerable SQL-Injection code
+void unsafe_query(const char* user_input, sqlite3* db) {  
     char query[256];
 
     snprintf(query, sizeof(query), "SELECT * FROM users WHERE id = %s", user_input);
@@ -28,8 +29,8 @@ int main() {
         return 1;
     }
 
-    const char* user_input = "1; DROP TABLE users--";  // Same vulnerable payload
-    unsafe_query(user_input, db);  // Arguments reordered to match new parameter order
+    const char* user_input = "1; DROP TABLE users--";  
+    unsafe_query(user_input, db);  
 
     sqlite3_close(db);
     return 0;
