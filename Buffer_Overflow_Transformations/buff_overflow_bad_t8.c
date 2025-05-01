@@ -1,5 +1,6 @@
 #include <string.h>
 
+//Our own buffer overflow vulnerability code
 static void dummy_function(char* dummy_param) {
     (void)dummy_param;
 }
