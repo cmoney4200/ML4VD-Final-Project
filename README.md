@@ -12,5 +12,5 @@ To train on a piece of vulnerable and a piece of safe code at the same time you 
 python codebert_trainer.py train bad_code.c --safe_example good_code.c
 For our experiment all four models were only trained on the vulnerable and safe code with no transformations applied.
 Models were not trained on the transformed versions of vulnerable or safe code.
-Each model trainer file also makes predictions about files by running the command:
+Each model trainer file also makes predictions about whether files are vulnerable by running the command:
 python codebert_trainer.py predict bad_code.c
