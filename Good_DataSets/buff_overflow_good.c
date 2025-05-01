@@ -1,5 +1,6 @@
 #include <string.h>
 
+//Our own safe version of the buffer overflow vulnerability
 void safe_copy(const char* input) {
     char buffer[12];
     //Bounds safely checked
