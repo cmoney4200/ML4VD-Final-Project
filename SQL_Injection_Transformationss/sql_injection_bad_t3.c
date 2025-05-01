@@ -29,6 +29,7 @@ int program_entry() {
         return 1;
     }
 
+    //Vulnerable SQL-Injection
     const char* malicious_input = "1; DROP TABLE users--"; 
     dangerous_db_operation(database_handle, malicious_input);
 
