@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
+//Vulnerable SQL-Injection code
 void dangerous_db_operation(sqlite3* database, const char* input_data) {
     char sql_command[256];
 
@@ -28,7 +29,7 @@ int program_entry() {
         return 1;
     }
 
-    const char* malicious_input = "1; DROP TABLE users--";  // Same vulnerable payload
+    const char* malicious_input = "1; DROP TABLE users--"; 
     dangerous_db_operation(database_handle, malicious_input);
 
     sqlite3_close(database_handle);
