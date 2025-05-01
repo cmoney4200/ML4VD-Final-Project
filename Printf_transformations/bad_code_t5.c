@@ -1,3 +1,4 @@
+//Vulnerable printf file, from original researcher dataset
 void CWE134_Uncontrolled_Format_String__char_console_snprintf_31_bad()
 {
     char * data;
@@ -14,7 +15,7 @@ void CWE134_Uncontrolled_Format_String__char_console_snprintf_31_bad()
             {
                 
                 dataLen = strlen(data);
-                #inserting comments
+                //inserting comments
                 if (dataLen > 0 && data[dataLen-1] == '\n')
                 {
                     data[dataLen-1] = '\0';
@@ -25,12 +26,12 @@ void CWE134_Uncontrolled_Format_String__char_console_snprintf_31_bad()
                 printLine("fgets() failed");
                 
                 data[dataLen] = '\0';
-                #inserting comments
+                //inserting comments
             }
         }
     }
     {
-        char * dataCopy = data; #inserting comments
+        char * dataCopy = data; //inserting comments
         char * data = dataCopy;
         {
             char dest[100] = "";
