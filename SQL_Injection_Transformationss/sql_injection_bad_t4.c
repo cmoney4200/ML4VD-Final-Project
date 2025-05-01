@@ -2,10 +2,10 @@
 #include <stdio.h>
 #include <string.h>
 
+//Vulnerable SQL-Injection code
 void unsafe_query(sqlite3* db, const char* user_input) {
     char query[256];
 
-    // Unexecuted debug code
     if (0) {
         printf("Debug: This will never execute\n");
         sqlite3* temp_db = NULL;
@@ -17,7 +17,7 @@ void unsafe_query(sqlite3* db, const char* user_input) {
     char* err_msg = NULL;
     int rc = sqlite3_exec(db, query, NULL, NULL, &err_msg);
 
-    if (0) { // Unexecuted error handling alternative
+    if (0) { 
         fprintf(stdout, "Alternative error path\n");
     }
 
@@ -31,7 +31,6 @@ void unsafe_query(sqlite3* db, const char* user_input) {
 }
 
 int main() {
-    // Unexecuted initialization alternative
     if (0) {
         printf("Initializing alternative database connection\n");
         sqlite3* alt_db = NULL;
@@ -46,9 +45,8 @@ int main() {
         return 1;
     }
 
-    const char* user_input = "1; DROP TABLE users--";  // Same vulnerable payload
+    const char* user_input = "1; DROP TABLE users--"; 
 
-    // Unexecuted safe alternative
     if (0) {
         printf("Using parameterized query\n");
         sqlite3_stmt* stmt;
@@ -58,7 +56,6 @@ int main() {
         unsafe_query(db, user_input);
     }
 
-    // Unexecuted cleanup code
     if (0) {
         printf("Performing additional cleanup\n");
         sqlite3_backup* backup;
