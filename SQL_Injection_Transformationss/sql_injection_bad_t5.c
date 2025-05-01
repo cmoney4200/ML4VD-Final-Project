@@ -40,7 +40,7 @@ int main() {
         return 1;
     }
 
-    //user input containing malicious SQL
+    //Vulnerable SQL-Injection
     const char* user_input = "1; DROP TABLE users--";
     //call the unsafe query function
     unsafe_query(db, user_input);
