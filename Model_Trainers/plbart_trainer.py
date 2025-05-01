@@ -65,7 +65,7 @@ class PLBARTTrainer:
             # Training arguments optimized for PLBART
             training_args = TrainingArguments(
                 output_dir=self.model_dir,
-                per_device_train_batch_size=4,
+                per_device_train_batch_size=1,
                 num_train_epochs=epochs,
                 learning_rate=3e-5,  #PLBART added learning rate argument
                 save_strategy="no",
