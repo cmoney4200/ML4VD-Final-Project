@@ -1,5 +1,6 @@
 #include <string.h>
 
+//Our own buffer overflow vulnerability code
 void perform_unsafe_copy(char* dest, char* src) {
     strcpy(dest, src);
 }
