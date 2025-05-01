@@ -9,7 +9,7 @@ void CWE134_Uncontrolled_Format_String__char_console_snprintf_31_good()
     char dataBuffer[100] = "";
     data = dataBuffer;
     
-    // Safe input reading with format string validation
+    //Safe input reading w/ format string validation
     {
         size_t dataLen = strlen(data);
         if (100-dataLen > 1)
@@ -25,11 +25,11 @@ void CWE134_Uncontrolled_Format_String__char_console_snprintf_31_good()
         }
     }
     
-    // Safe output with format string enforcement
+    //Safely handled printf
     {
         char dest[100] = "";
-        SNPRINTF(dest, sizeof(dest), "%s", data);  // Explicit format specifier
-        printf("%s\n", dest);  // Safe printf
+        SNPRINTF(dest, sizeof(dest), "%s", data);
+        printf("%s\n", dest);
     }
 }
 
