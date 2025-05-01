@@ -1,3 +1,4 @@
+//Vulnerable printf file, from original researcher dataset
 void CWE134_Uncontrolled_Format_String__char_console_snprintf_31_bad()
 {
     char * data;
@@ -8,7 +9,6 @@ void CWE134_Uncontrolled_Format_String__char_console_snprintf_31_bad()
         
         if (100-dataLen > 1)
         {
-            /* Unexecuted debug code */
             if (0) {
                 printf("Debug: Buffer size is %zu\n", dataLen);
                 fprintf(stderr, "This never runs\n");
@@ -29,7 +29,6 @@ void CWE134_Uncontrolled_Format_String__char_console_snprintf_31_bad()
             }
         }
         
-        /* Dead code branch */
         if (0) {
             char unusedBuffer[50];
             strcpy(unusedBuffer, "This will never execute");
@@ -55,14 +54,12 @@ void CWE134_Uncontrolled_Format_String__char_console_snprintf_31_bad()
 
 static void beay()  
 {
-    /* Never-executed debug code */
     if (0) {
         fprintf(stderr, "Debug: Entering beay()\n");
     }
     
     char * ze = qa;
     
-    /* Dead code variant */
     if (1 == 0) {
         char safe_copy[100];
         snprintf(safe_copy, sizeof(safe_copy), "%s", ze);
