@@ -11,5 +11,7 @@ python codebert_trainer.py train good_code.c --label 0
 For our experiment all four models were only trained on the vulnerable and safe code with no transformations applied.
 Models were not trained on the transformed versions of vulnerable or safe code.
 All models were trained until they had a confidence score of at least 99% on their respective predictions of the training datasets.
-Each model trainer file also makes predictions about whether files are vulnerable by running the command:
+Each model trainer file also makes predictions about whether files are vulnerable by running a command such as:
 python codebert_trainer.py predict bad_code.c
+or
+python plbart_trainer.py predict good_code.c
