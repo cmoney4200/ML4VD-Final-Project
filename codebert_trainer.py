@@ -178,8 +178,7 @@ if __name__ == "__main__":
         trainer = IncrementalCodeBERTTrainer(args.model_dir)
         success = trainer.train_on_single_example(
             args.code_file,
-            args.label,
-            args.safe_example
+            args.label
         )
         if success:
             print(f"Model updated and saved to {args.model_dir}")
