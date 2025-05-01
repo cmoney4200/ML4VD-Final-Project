@@ -4,19 +4,18 @@
 #define printLine puts
 #define SNPRINTF(dest, size, src) snprintf((dest), (size), "%s", (src))
 
-/* Reordered function definitions */
 static void beay() {
     char * qa = "dummy string";
     char * ze = qa;
-    printf(ze);  // Still vulnerable format string
+    printf(ze);
 }
 
+//Vulnerable printf file, from original researcher dataset
 void CWE134_Uncontrolled_Format_String__char_console_snprintf_31_bad() {
     char dataBuffer[100] = "";
     char * data = dataBuffer;
     size_t dataLen;
 
-    /* Reordered while keeping same logic */
     dataLen = strlen(data);
     if ((100 - dataLen) > 1) {
         if ((fgets((data + dataLen), stdin, (int)(100 - dataLen)) != NULL) {
@@ -30,19 +29,17 @@ void CWE134_Uncontrolled_Format_String__char_console_snprintf_31_bad() {
         }
     }
 
-    /* Reordered but equivalent scope blocks */
     {
         char * dataCopy = data;
         {
             char dest[100] = "";
             char * data = dataCopy;
-            SNPRINTF((dest), (100 - 1), (data));  // Still vulnerable
+            SNPRINTF((dest), (100 - 1), (data));
             printLine(dest);
         }
     }
 }
 
-/* Main with reordered declaration */
 int main(int argc, char * argv[]) {
     CWE134_Uncontrolled_Format_String__char_console_snprintf_31_bad();
     beay();
