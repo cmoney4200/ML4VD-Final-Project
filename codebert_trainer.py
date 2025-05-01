@@ -61,11 +61,6 @@ class IncrementalCodeBERTTrainer:
         codes = [vuln_code]
         labels = [label]
         
-        #Optional adding safe code and setting label to 0
-        if safe_example and os.path.exists(safe_example):
-            safe_code = self._preprocess_code(Path(safe_example).read_text())
-            codes.append(safe_code)
-            labels.append(0)
         
         #Tokenize w/ CodeBERT tokenizer
         encodings = self.tokenizer(
@@ -82,13 +77,13 @@ class IncrementalCodeBERTTrainer:
         #Training one vulnerable example at a time
         try:
             #Create training data using prevous tokenizer function and wrap in CodeDataset object
-            encodings, labels = self.create_single_example(code_file, label, safe_example)
+            encodings, labels = self.create_single_example(code_file, label)
             train_dataset = CodeDataset(encodings, labels)
             
             #Setting training argument parameters
             training_args = TrainingArguments(
                 output_dir=self.model_dir,
-                per_device_train_batch_size=2 if safe_example else 1,
+                per_device_train_batch_size=1,
                 num_train_epochs=1,
                 save_strategy="no",
                 logging_strategy="no",
@@ -168,7 +163,6 @@ if __name__ == "__main__":
     train_parser.add_argument('code_file', help="C code file to train on")
     train_parser.add_argument('--label', type=int, choices=[0,1], default=1,
                             help="0 for safe, 1 for vulnerable")
-    train_parser.add_argument('--safe_example', help="Optional safe code example")
     train_parser.add_argument('--model_dir', default="./models/codebert_model",
                             help="Directory to save/load model")
     
