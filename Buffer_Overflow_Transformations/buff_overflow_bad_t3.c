@@ -1,5 +1,6 @@
 #include <string.h>
 
+//Our own buffer overflow vulnerability code
 void unsafe_memory_operation(char* source_data) { 
     char small_buffer[12];
     //Bounds not checked, vulnerable
