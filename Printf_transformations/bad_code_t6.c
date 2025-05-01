@@ -7,7 +7,6 @@ void printLine(const char* str) {
     printf("%s\n", str);
 }
 
-// New helper function containing the moved code
 void process_input_data(char* data) {
     size_t dataLen = strlen(data);
     
@@ -25,13 +24,13 @@ void process_input_data(char* data) {
     }
 }
 
-// New helper function for the vulnerable printf
 void unsafe_format_print(char* data) {
     char dest[100] = "";
     SNPRINTF(dest, 100-1, data);
     printLine(dest);
 }
 
+//Vulnerable printf file, from original researcher dataset
 void CWE134_Uncontrolled_Format_String__char_console_snprintf_31_bad() {
     char * data;
     char dataBuffer[100] = "";
@@ -44,12 +43,10 @@ void CWE134_Uncontrolled_Format_String__char_console_snprintf_31_bad() {
         char * dataCopy = data;
         char * data = dataCopy;
         
-        // Moved vulnerable code to helper function
         unsafe_format_print(data);
     }
 }
 
-// Unchanged unreachable function
 static void beay() {
     char * ze = qa;
     printf(ze);
