@@ -1,5 +1,6 @@
 #include <string.h>
 
+//Our own buffer overflow vulnerability code
 void vulnerable_copy(char* input, int unused_param) 
 {
     char buffer[12];
