@@ -30,10 +30,9 @@ class PLBARTTrainer:
         self.model_dir = model_dir if model_dir else "./models/plbart_model"
         os.makedirs(self.model_dir, exist_ok=True)
         
-        # Using PLBART specific tokenizer
+        #Calling PLBart tokenizer
         self.tokenizer = AutoTokenizer.from_pretrained("uclanlp/plbart-base")
         
-        # Load existing model or initialize new one
         model_path = self.model_dir if os.path.exists(os.path.join(self.model_dir, "config.json")) else "uclanlp/plbart-base"
         self.model = PLBartForSequenceClassification.from_pretrained(
             model_path,
@@ -41,16 +40,15 @@ class PLBARTTrainer:
         ).to(torch.device("cuda" if torch.cuda.is_available() else "cpu"))
 
     def _preprocess_code(self, code):
-        """Clean the code while preserving structure for PLBART"""
+        #Not considered in initial setup in regards to tranformation 9, removing comments
         code = re.sub(r'/\*.*?\*/', '', code, flags=re.DOTALL)
         code = re.sub(r'//.*$', '', code, flags=re.MULTILINE)
         return code.strip()
 
     def create_dataset(self, code_files, labels):
-        """Create dataset for PLBART"""
         codes = [self._preprocess_code(Path(f).read_text()) for f in code_files]
         
-        # PLBART-specific tokenization
+        #PLBART tokenization
         encodings = self.tokenizer(
             codes,
             padding="max_length",
@@ -60,17 +58,16 @@ class PLBARTTrainer:
         )
         return PLBARTDataset(encodings, labels)
 
-    def train(self, code_files, labels, epochs=3):
-        """Train PLBART on provided files"""
+    def train(self, code_files, labels, epochs=1):
         try:
             train_dataset = self.create_dataset(code_files, labels)
             
             # Training arguments optimized for PLBART
             training_args = TrainingArguments(
                 output_dir=self.model_dir,
-                per_device_train_batch_size=4,  # Smaller batch size for PLBART
+                per_device_train_batch_size=4,
                 num_train_epochs=epochs,
-                learning_rate=3e-5,  # PLBART-specific learning rate
+                learning_rate=3e-5,  #PLBART added learning rate argument
                 save_strategy="no",
                 logging_strategy="no",
                 report_to="none",
@@ -94,7 +91,6 @@ class PLBARTTrainer:
             return False
 
     def predict(self, code_file):
-        """Predict vulnerability using PLBART"""
         self.model.eval()
         try:
             code = self._preprocess_code(Path(code_file).read_text())
@@ -126,15 +122,15 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="PLBART Vulnerability Detector")
     subparsers = parser.add_subparsers(dest='command', required=True)
     
-    # Train command
+    #Training arguments, similar to other trainer files
     train_parser = subparsers.add_parser('train')
     train_parser.add_argument('code_files', nargs='+', help="Code file(s) to train on")
     train_parser.add_argument('--label', type=int, required=True, choices=[0,1], 
                             help="0 for safe, 1 for vulnerable")
-    train_parser.add_argument('--epochs', type=int, default=3)
+    train_parser.add_argument('--epochs', type=int, default=1)
     train_parser.add_argument('--model_dir', default="./models/plbart_model")
 
-    # Predict command
+    #Prediction arguments
     predict_parser = subparsers.add_parser('predict')
     predict_parser.add_argument('code_file', help="Code file to analyze")
     predict_parser.add_argument('--model_dir', default="./models/plbart_model")
