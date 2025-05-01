@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
+//Vulnerable SQL-Injection code
 void unsafe_query(sqlite3* tokenA, const char* tokenB) {
     char query[256];
 
