@@ -54,7 +54,7 @@ class GraphCodeBERTTrainer:
         )
         return GraphCodeDataset(encodings, labels)
 
-    def train(self, train_files, train_labels, epochs=3):
+    def train(self, train_files, train_labels, epochs=1):
         try:
             train_dataset = self.create_dataset(train_files, train_labels)
             
@@ -116,22 +116,22 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="GraphCodeBERT Vulnerability Detector")
     subparsers = parser.add_subparsers(dest='command', required=True)
     
-    # Single-file training
+    #Training on one file
     train_parser = subparsers.add_parser('train')
     train_parser.add_argument('code_files', nargs='+', help="Code file(s) to train on")
     train_parser.add_argument('--label', type=int, required=True, choices=[0,1], 
                             help="0 for safe, 1 for vulnerable")
-    train_parser.add_argument('--epochs', type=int, default=3)
+    train_parser.add_argument('--epochs', type=int, default=1)
     train_parser.add_argument('--model_dir', default="./models/graphcodebert_model")
 
-    # Directory-based training (original functionality)
+    #Training on a directory, added for future potential research
     dir_train_parser = subparsers.add_parser('dir-train')
     dir_train_parser.add_argument('--train_dir', required=True, 
                                 help="Directory with vulnerable/ and safe/ subdirs")
-    dir_train_parser.add_argument('--epochs', type=int, default=3)
+    dir_train_parser.add_argument('--epochs', type=int, default=1)
     dir_train_parser.add_argument('--model_dir', default="./models/graphcodebert_model")
 
-    # Prediction
+    #Prediction arguments
     predict_parser = subparsers.add_parser('predict')
     predict_parser.add_argument('code_file', help="Code file to analyze")
     predict_parser.add_argument('--model_dir', default="./models/graphcodebert_model")
