@@ -7,12 +7,11 @@ void printLine(const char* str) {
     printf("%s\n", str);
 }
 
-// New helper function that does nothing meaningful
 static void dummy_helper(char* unused) {
-    // This function doesn't actually do anything
-    (void)unused; // Cast to void to suppress unused parameter warning
+    (void)unused;
 }
 
+//Vulnerable printf file, from original researcher dataset
 void CWE134_Uncontrolled_Format_String__char_console_snprintf_31_bad() {
     char * data;
     char dataBuffer[100] = "";
@@ -21,7 +20,6 @@ void CWE134_Uncontrolled_Format_String__char_console_snprintf_31_bad() {
         size_t dataLen = strlen(data);
         
         if (100-dataLen > 1) {
-            // Call dummy function before fgets
             dummy_helper(data);
             
             if (fgets(data+dataLen, (int)(100-dataLen), stdin) != NULL) {
@@ -42,7 +40,6 @@ void CWE134_Uncontrolled_Format_String__char_console_snprintf_31_bad() {
         {
             char dest[100] = "";
             
-            // Call dummy function before SNPRINTF
             dummy_helper(data);
             
             SNPRINTF(dest, 100-1, data);
