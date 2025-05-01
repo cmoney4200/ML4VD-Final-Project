@@ -124,13 +124,6 @@ if __name__ == "__main__":
     train_parser.add_argument('--epochs', type=int, default=1)
     train_parser.add_argument('--model_dir', default="./models/graphcodebert_model")
 
-    #Training on a directory, added for future potential research
-    dir_train_parser = subparsers.add_parser('dir-train')
-    dir_train_parser.add_argument('--train_dir', required=True, 
-                                help="Directory with vulnerable/ and safe/ subdirs")
-    dir_train_parser.add_argument('--epochs', type=int, default=1)
-    dir_train_parser.add_argument('--model_dir', default="./models/graphcodebert_model")
-
     #Prediction arguments
     predict_parser = subparsers.add_parser('predict')
     predict_parser.add_argument('code_file', help="Code file to analyze")
