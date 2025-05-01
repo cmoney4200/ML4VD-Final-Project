@@ -2,8 +2,9 @@
 
 void safe_copy(const char* input) {
     char buffer[64];
-    strncpy(buffer, input, sizeof(buffer) - 1);  // Bounds-checked
-    buffer[sizeof(buffer) - 1] = '\0';  // Ensure null-termination
+    //Bounds safely checked
+    strncpy(buffer, input, sizeof(buffer) - 1);
+    buffer[sizeof(buffer) - 1] = '\0';
 }
 
 int main() {
