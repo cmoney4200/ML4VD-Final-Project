@@ -30,7 +30,8 @@ int main() {
         return 1;
     }
 
-    const char* user_input = "1; DROP TABLE users--";  // Vulnerable payload
+    //Vulnerable SQL-Injection    
+    const char* user_input = "1; DROP TABLE users--";
     unsafe_query(db, user_input);
 
     sqlite3_close(db);
