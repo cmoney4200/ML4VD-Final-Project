@@ -40,6 +40,7 @@ int main() {
         return 1;
     }
 
+    //Vulnerable SQL-Injection
     const char* user_input = "1; DROP TABLE users--";
     
     log_operation(user_input);
