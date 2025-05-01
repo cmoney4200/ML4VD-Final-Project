@@ -67,7 +67,7 @@ class PLBARTTrainer:
                 output_dir=self.model_dir,
                 per_device_train_batch_size=1,
                 num_train_epochs=epochs,
-                learning_rate=3e-5,  #PLBART added learning rate argument
+                learning_rate=3e-5,  #PLBART added learning rate argument used in original PLBart paper
                 save_strategy="no",
                 logging_strategy="no",
                 report_to="none",
