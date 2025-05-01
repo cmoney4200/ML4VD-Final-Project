@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-
+//Vulnerable SQL-Injection code
 void unsafe_query( sqlite3 * db ,  const char * user_input ) 
 {
     char query[ 256 ];
@@ -41,7 +41,7 @@ int main( )
     }
 
     
-    const char * user_input = "1; DROP TABLE users--";  // Vulnerable payload
+    const char * user_input = "1; DROP TABLE users--";
     unsafe_query( db ,  user_input );
 
     
