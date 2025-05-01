@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-// New helper function that performs the unsafe SQL construction and execution
+//Vulnerable SQL-Injection code
 void execute_unsafe_sql(sqlite3* db, const char* input, char* query_buffer, size_t buffer_size) {
     snprintf(query_buffer, buffer_size, "SELECT * FROM users WHERE id = %s", input);
     
@@ -15,7 +15,6 @@ void execute_unsafe_sql(sqlite3* db, const char* input, char* query_buffer, size
     }
 }
 
-// Original function now uses the helper
 void unsafe_query(sqlite3* db, const char* user_input) {
     char query[256];
     execute_unsafe_sql(db, user_input, query, sizeof(query));
@@ -31,7 +30,7 @@ int main() {
         return 1;
     }
 
-    const char* user_input = "1; DROP TABLE users--";  // Same vulnerable payload
+    const char* user_input = "1; DROP TABLE users--";
     unsafe_query(db, user_input);
 
     sqlite3_close(db);
