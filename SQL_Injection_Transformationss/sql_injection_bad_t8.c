@@ -2,21 +2,18 @@
 #include <stdio.h>
 #include <string.h>
 
-// New dummy function that does nothing
+//Vulnerable SQL-Injection code
 static void log_operation(const char* dummy_msg) {
-    // This function intentionally left empty
-    (void)dummy_msg; // Cast to void to suppress unused parameter warning
+    (void)dummy_msg;
 }
 
 void unsafe_query(sqlite3* db, const char* user_input) {
     char query[256];
     
-    // Call dummy function before vulnerable operation
     log_operation("Starting query construction");
     
     snprintf(query, sizeof(query), "SELECT * FROM users WHERE id = %s", user_input);
     
-    // Call dummy function after string formatting
     log_operation(query);
     
     char* err_msg = NULL;
@@ -28,13 +25,11 @@ void unsafe_query(sqlite3* db, const char* user_input) {
         return;
     }
 
-    // Call dummy function before printing
     log_operation("Query successful");
     printf("Query executed: %s\n", query);
 }
 
 int main() {
-    // Call dummy function at start
     log_operation("Program started");
     
     sqlite3* db;
@@ -45,14 +40,12 @@ int main() {
         return 1;
     }
 
-    const char* user_input = "1; DROP TABLE users--";  // Same vulnerable payload
+    const char* user_input = "1; DROP TABLE users--";
     
-    // Call dummy function before vulnerable query
     log_operation(user_input);
     
     unsafe_query(db, user_input);
 
-    // Call dummy function before closing
     log_operation("Closing database");
     sqlite3_close(db);
     
