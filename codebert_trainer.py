@@ -105,11 +105,11 @@ class IncrementalCodeBERTTrainer:
             self.model.save_pretrained(self.model_dir)
             self.tokenizer.save_pretrained(self.model_dir)
             
-            print(f"Successfully trained on {code_file}")
+            print(f"Successfully trained codebert :D on {code_file}")
             return True
             
         except Exception as e:
-            print(f"Training failed on {code_file}: {str(e)}")
+            print(f"Training codebert has failed :( on {code_file}: {str(e)}")
             return False
 
     def predict(self, code_file):
@@ -145,7 +145,7 @@ class IncrementalCodeBERTTrainer:
             return pred, confidence
             
         except Exception as e:
-            print(f"Prediction error on {code_file}: {str(e)}")
+            print(f"Prediction error :( on {code_file}: {str(e)}")
             return -1, 0.0
 
 if __name__ == "__main__":
@@ -181,9 +181,9 @@ if __name__ == "__main__":
             args.label
         )
         if success:
-            print(f"Model updated and saved to {args.model_dir}")
+            print(f"Model sucessfully updated and saved to {args.model_dir}")
         else:
-            print("Training failed")
+            print("Training failed :(")
     
     elif args.command == 'predict':
         trainer = IncrementalCodeBERTTrainer(args.model_dir)
