@@ -30,10 +30,9 @@ class UniXcoderTrainer:
         self.model_dir = model_dir if model_dir else "./models/unixcoder_model"
         os.makedirs(self.model_dir, exist_ok=True)
         
-        # Using UniXcoder specific tokenizer
+        #Calling UnixCoder tokenizer
         self.tokenizer = AutoTokenizer.from_pretrained("microsoft/unixcoder-base")
         
-        # Load existing model or initialize new one
         model_path = self.model_dir if os.path.exists(os.path.join(self.model_dir, "config.json")) else "microsoft/unixcoder-base"
         self.model = RobertaForSequenceClassification.from_pretrained(
             model_path,
@@ -41,38 +40,35 @@ class UniXcoderTrainer:
         ).to(torch.device("cuda" if torch.cuda.is_available() else "cpu"))
 
     def _preprocess_code(self, code):
-        """Clean the code while preserving structure for UniXcoder"""
-        # UniXcoder benefits from keeping some structural elements
+        #Not considered in initial setup in regards to transformation 9
         code = re.sub(r'/\*.*?\*/', '', code, flags=re.DOTALL)  # Remove block comments
         code = re.sub(r'//.*$', '', code, flags=re.MULTILINE)   # Remove line comments
         return code.strip()
 
     def create_dataset(self, code_files, labels):
-        """Create dataset for UniXcoder with proper tokenization"""
         codes = [self._preprocess_code(Path(f).read_text()) for f in code_files]
         
-        # UniXcoder-specific tokenization
+        #UniXcoder tokenization
         encodings = self.tokenizer(
             codes,
             padding="max_length",
             truncation=True,
             max_length=512,
             return_tensors="pt",
-            return_token_type_ids=True  # Important for UniXcoder
+            return_token_type_ids=True 
         )
         return UniXcoderDataset(encodings, labels)
 
-    def train(self, code_files, labels, epochs=3):
-        """Train UniXcoder model on provided files"""
+    def train(self, code_files, labels, epochs=1):
         try:
             train_dataset = self.create_dataset(code_files, labels)
             
             # Training arguments optimized for UniXcoder
             training_args = TrainingArguments(
                 output_dir=self.model_dir,
-                per_device_train_batch_size=8,
+                per_device_train_batch_size=1,
                 num_train_epochs=epochs,
-                learning_rate=2e-5,  # Optimal for UniXcoder
+                learning_rate=2e-5,  #Gradual learning rate for our one file at a time training method
                 weight_decay=0.01,
                 save_strategy="no",
                 logging_strategy="no",
@@ -131,15 +127,15 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="UniXcoder Vulnerability Detector")
     subparsers = parser.add_subparsers(dest='command', required=True)
     
-    # Train command
+    #Training arguments
     train_parser = subparsers.add_parser('train')
     train_parser.add_argument('code_files', nargs='+', help="Code file(s) to train on")
     train_parser.add_argument('--label', type=int, required=True, choices=[0,1], 
                             help="0 for safe, 1 for vulnerable")
-    train_parser.add_argument('--epochs', type=int, default=3)
+    train_parser.add_argument('--epochs', type=int, default=1)
     train_parser.add_argument('--model_dir', default="./models/unixcoder_model")
 
-    # Predict command
+    #Prediction arguments
     predict_parser = subparsers.add_parser('predict')
     predict_parser.add_argument('code_file', help="Code file to analyze")
     predict_parser.add_argument('--model_dir', default="./models/unixcoder_model")
