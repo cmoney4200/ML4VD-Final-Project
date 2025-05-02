@@ -139,16 +139,6 @@ if __name__ == "__main__":
             args.epochs
         )
 
-    elif args.command == 'dir-train':
-        # Original directory-based training
-        vuln_files = glob.glob(os.path.join(args.train_dir, "vulnerable", "*.c"))
-        safe_files = glob.glob(os.path.join(args.train_dir, "safe", "*.c"))
-        trainer = GraphCodeBERTTrainer(args.model_dir)
-        trainer.train(
-            vuln_files + safe_files,
-            [1]*len(vuln_files) + [0]*len(safe_files),
-            args.epochs
-        )
 
     elif args.command == 'predict':
         trainer = GraphCodeBERTTrainer(args.model_dir)
