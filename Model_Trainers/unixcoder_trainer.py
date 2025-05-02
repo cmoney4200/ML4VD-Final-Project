@@ -63,12 +63,12 @@ class UniXcoderTrainer:
         try:
             train_dataset = self.create_dataset(code_files, labels)
             
-            # Training arguments optimized for UniXcoder
+            #Training arguments optimized for UniXcoder
             training_args = TrainingArguments(
                 output_dir=self.model_dir,
                 per_device_train_batch_size=1,
                 num_train_epochs=epochs,
-                learning_rate=2e-5,  #Gradual learning rate for our one file at a time training method
+                learning_rate=2e-5,  #Gradual learning rate for our one file at a time training method, may have increased prediction accuracy
                 weight_decay=0.01,
                 save_strategy="no",
                 logging_strategy="no",
@@ -93,12 +93,11 @@ class UniXcoderTrainer:
             return False
 
     def predict(self, code_file):
-        """Predict vulnerability using UniXcoder"""
         self.model.eval()
         try:
             code = self._preprocess_code(Path(code_file).read_text())
             
-            # UniXcoder requires token_type_ids
+            #UniXcoder requires token_type_ids
             inputs = self.tokenizer(
                 code,
                 return_tensors="pt",
